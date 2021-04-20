@@ -1,0 +1,10 @@
+{
+  "name": "simconnect-calendar",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^2.6.1",
+    "puppeteer": "^8.0.0"
+  }
+}
