@@ -132,7 +132,9 @@ const createICS = (parsedTimetable) => {
     cal.push("DTSTART:" + entry.start.replace(/([-:]|\.000)/g, ""));
     cal.push("DTEND:" + entry.end.replace(/([-:]|\.000)/g, ""));
     cal.push("LOCATION:" + entry.location);
+    cal.push("END:VEVENT");
   });
+  cal.push("END:VCALENDAR");
   return cal.join("\n");
 };
 
