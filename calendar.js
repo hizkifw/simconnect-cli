@@ -1,63 +1,64 @@
 const puppeteer = require("puppeteer");
 const crypto = require("crypto");
 const fs = require("fs");
+const logger = require("./logger");
 
-const getTimetable = async (username, password) => {
-  console.log("Launching browser");
+const getTimetable = async (username, password, options) => {
+  logger.log("Launching browser");
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: !options.visible,
     defaultViewport: { width: 1280, height: 720 },
   });
   const page = await browser.newPage();
 
-  console.log("Loading page");
+  logger.log("Loading page");
   await page.goto("https://simconnect.simge.edu.sg", {
     waitUntil: "load",
   });
   // Page will redirect to actual login form
   await page.waitForNavigation({ waitUntil: "networkidle0" });
 
-  console.log("Page loaded, selecting login mode");
+  logger.log("Page loaded, selecting login mode");
   await page.select("#User_Type", "Student");
 
-  console.log("Inserting login details");
+  logger.log("Inserting login details");
   await page.type("#userid", username);
   await page.type("#pwd", password);
 
-  console.log("Loggin in...");
+  logger.log("Loggin in...");
   await Promise.all([
     page.waitForNavigation({ waitUntil: "networkidle0", timeout: 120000 }),
     page.click("input[type=submit]"),
   ]);
 
-  console.log("Logged in!");
-  console.log("Navigating to My Apps");
+  logger.log("Logged in!");
+  logger.log("Navigating to My Apps");
   await page.goto(
     "https://simconnect.simge.edu.sg/psp/paprd/EMPLOYEE/EMPL/h/?tab=SM_STUDENT",
     { waitUntil: "networkidle0" }
   );
 
-  console.log("Loading timetable");
+  logger.log("Loading timetable");
   await page.select("#DERIVED_SSS_SCL_SSS_MORE_ACADEMICS", "1002");
   await Promise.all([
     page.waitForNavigation({ waitUntil: "load" }),
     page.click("#DERIVED_SSS_SCL_SSS_GO_1"),
   ]);
 
-  console.log("Timetable loaded! Extracting data");
+  logger.log("Timetable loaded! Extracting data");
   const iframe = await page
     .$("#ptifrmtgtframe")
     .then((frame) => frame.contentFrame());
   const table = await iframe.waitForSelector("#ACE_STDNT_ENRL_SSV2\\$0");
   const tableContent = await table.evaluate((t) => t.innerText);
 
-  console.log("Logging out");
+  logger.log("Logging out");
   await page.goto(
     "https://simconnect.simge.edu.sg/psp/paprd/EMPLOYEE/EMPL/?cmd=logout",
     { waitUntil: "load" }
   );
 
-  console.log("Closing");
+  logger.log("Closing");
   await browser.close();
 
   return tableContent;
