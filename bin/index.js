@@ -1,7 +1,7 @@
 const yargs = require("yargs/yargs");
 const { hideBin } = require("yargs/helpers");
-const { setQuiet } = require("./logger");
-const calendar = require("./calendar");
+const { setQuiet } = require("../lib/logger");
+const { calendar } = require("../lib");
 
 const run = async () => {
   const argv = yargs(hideBin(process.argv))
@@ -45,6 +45,7 @@ const run = async () => {
       .then(calendar.parseTimetable)
       .then(calendar.createICS)
       .then(console.log);
+  else console.error("Unknown command:", argv._.join(" "));
 };
 
 run();

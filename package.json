@@ -1,8 +1,13 @@
 {
   "name": "simconnect-cli",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Unofficial command-line interface to interact with SIMConnect",
   "license": "MIT",
+  "main": "./lib/index.js",
+  "bin": {
+    "simconnect-cli": "./bin/index.js"
+  },
+  "repository": "github:hizkifw/simconnect-cli",
   "dependencies": {
     "node-fetch": "^2.6.1",
     "puppeteer": "^8.0.0",
