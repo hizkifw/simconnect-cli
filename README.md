@@ -2,6 +2,14 @@
 
 Unofficial command-line interface to interact with [SIMConnect](https://simconnect.simge.edu.sg) using [Puppeteer](https://github.com/puppeteer/puppeteer/).
 
+## Installation
+
+```
+$ npm i -g simconnect-cli
+```
+
+## Usage
+
 ```
 simconnect-cli <command>
 
@@ -21,5 +29,5 @@ Options:
 Get your personalized timetable as an iCal file
 
 ```bash
-$ npx simconnect-cli --username "someone001" --passsword "abc1234" ical > ~/calendar.ics
+$ simconnect-cli --username "someone001" --passsword "abc1234" ical > ~/calendar.ics
 ```
