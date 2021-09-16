@@ -1,6 +1,6 @@
 {
   "name": "simconnect-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Unofficial command-line interface to interact with SIMConnect",
   "license": "MIT",
   "main": "./lib/index.js",
